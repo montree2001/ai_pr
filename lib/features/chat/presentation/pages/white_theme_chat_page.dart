@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:speech_to_text/speech_to_text.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 import '../../../../core/models/chat_message.dart';
 import '../../../../core/services/voice_service.dart';
 import '../../../../core/constants/white_theme_colors.dart';

@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 
 class VoiceService {
   static final VoiceService _instance = VoiceService._internal();
@@ -8,7 +7,6 @@ class VoiceService {
   VoiceService._internal();
 
   late SpeechToText _speechToText;
-  late FlutterTts _flutterTts;
   
   bool _speechEnabled = false;
   bool _isListening = false;
@@ -30,36 +28,12 @@ class VoiceService {
     }
     
     _speechToText = SpeechToText();
-    _flutterTts = FlutterTts();
     
     // Initialize Speech to Text
     _speechEnabled = await _speechToText.initialize(
       onStatus: _onSpeechStatus,
       onError: _onSpeechError,
     );
-    
-    // Configure TTS
-    await _configureTts();
-  }
-  
-  Future<void> _configureTts() async {
-    await _flutterTts.setLanguage('th-TH'); // Thai language
-    await _flutterTts.setSpeechRate(0.8);
-    await _flutterTts.setVolume(0.9);
-    await _flutterTts.setPitch(1.0);
-    
-    // Set callbacks
-    _flutterTts.setStartHandler(() {
-      _isSpeaking = true;
-    });
-    
-    _flutterTts.setCompletionHandler(() {
-      _isSpeaking = false;
-    });
-    
-    _flutterTts.setErrorHandler((msg) {
-      _isSpeaking = false;
-    });
   }
   
   Future<void> startListening({
@@ -96,21 +70,17 @@ class VoiceService {
   Future<void> speak(String text) async {
     if (text.isEmpty) return;
     
-    // Stop any current speech
-    await _flutterTts.stop();
+    // TTS functionality temporarily disabled
+    // TODO: Re-enable when flutter_tts is properly configured for Windows
+    print('TTS would say: $text');
     
-    // For web platform, try to use browser's speech synthesis
-    if (kIsWeb) {
-      // Web speech synthesis is limited, implement fallback
-      print('TTS: $text'); // Fallback for debugging
-      return;
-    }
-    
-    await _flutterTts.speak(text);
+    // Simulate speaking state
+    _isSpeaking = true;
+    await Future.delayed(const Duration(milliseconds: 500));
+    _isSpeaking = false;
   }
   
   Future<void> stopSpeaking() async {
-    await _flutterTts.stop();
     _isSpeaking = false;
   }
   
@@ -125,9 +95,9 @@ class VoiceService {
     print('Speech error: $error');
   }
   
-  // Get available languages
+  // Get available languages (placeholder)
   Future<List<dynamic>> getLanguages() async {
-    return await _flutterTts.getLanguages;
+    return ['th-TH', 'en-US']; // Placeholder languages
   }
   
   // Check if language is available
@@ -138,6 +108,5 @@ class VoiceService {
   
   void dispose() {
     _speechToText.cancel();
-    _flutterTts.stop();
   }
 }

@@ -62,11 +62,11 @@ dependencies:
   
   # Speech and voice features
   speech_to_text: ^6.6.2
-  flutter_tts: ^4.0.2
+  # flutter_tts: ^4.0.2  # Temporarily disabled due to NuGet dependency
   
   # Advanced animations and effects
   flutter_animate: ^4.5.0
-  rive: ^0.13.1
+  # rive: ^0.13.1  # Temporarily disabled due to ClangCL dependency
   
   # Glassmorphism and modern effects
   glassmorphism: ^3.0.0
